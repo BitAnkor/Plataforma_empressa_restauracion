@@ -1,0 +1,12 @@
+@echo off
+REM Activar el entorno virtual
+call C:\Users\Fabian\Desktop\Proyecto app_interna_locales\env\Scripts\activate.bat
+
+REM Ir al directorio del proyecto
+cd /d C:\Users\Fabian\Desktop\Proyecto app_interna_locales\plataforma
+
+REM Ejecutar django-q2 qcluster
+python manage.py qcluster
+
+REM Mantener ventana abierta (opcional si usás cmd)
+pause

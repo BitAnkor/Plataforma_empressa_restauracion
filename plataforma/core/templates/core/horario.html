@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">⏰ Mi Horario</h1>
+
+<div id="horarios" class="space-y-4">
+    {% if jornadas %}
+        {% for jornada in jornadas %}
+            <div class="p-4 bg-white rounded-lg shadow-md">
+                <p><strong>Fecha:</strong> {{ jornada.fecha|date:"Y-m-d" }}</p>
+                <p><strong>Inicio:</strong> {{ jornada.hora_inicio|time:"H:i" }}</p>
+                <p><strong>Fin:</strong> {{ jornada.hora_fin|time:"H:i" }}</p>
+                <p><strong>Horas extras:</strong> {{ jornada.horas_extras }}</p>
+                <p><strong>Observaciones:</strong> {{ jornada.observaciones|default:"-" }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-gray-500">No hay horarios cargados.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

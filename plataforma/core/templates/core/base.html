@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#2563eb',
+              secondary: '#f9fafb',
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-secondary h-screen">
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg p-4">
+            <h2 class="text-xl font-bold text-primary mb-6">Panel</h2>
+            <nav class="space-y-4">
+                <a href="/news/" class="block text-gray-700 hover:text-primary">📰 Noticias</a>
+                <a href="/horario/" class="block text-gray-700 hover:text-primary">⏰ Horario</a>
+                <a href="/nominas/" class="block text-gray-700 hover:text-primary">📄 Nóminas</a>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Header -->
+            <header class="flex justify-end items-center bg-white shadow px-6 py-4">
+                <!-- Mensajes -->
+                <div class="relative mr-6">
+                    <a href="/mensajes/" class="text-gray-600 hover:text-primary text-xl">🔔</a>
+                    {% if mensajes_no_leidos > 0 %}
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                        {{ mensajes_no_leidos }}
+                    </span>
+                    {% endif %}
+                </div>
+                <!-- Usuario -->
+                <div class="relative">
+                    <button id="userMenuButton" class="text-gray-600 hover:text-primary text-xl">👤</button>
+                    <div id="userMenu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
+                        <a href="/perfil/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Editar perfil</a>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100">
+                                Cerrar sesión
+                            </button>
+                        </form>
+    
+                        
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido principal -->
+            <main class="flex-1 p-6">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Toggle menú de usuario
+        const btn = document.getElementById('userMenuButton');
+        const menu = document.getElementById('userMenu');
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', function (e) {
+            if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
